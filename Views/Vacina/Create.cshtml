@@ -1,0 +1,104 @@
+﻿@model CVC19.ViewModel.VacinaViewModel
+
+@{
+    ViewData["Title"] = "Vacina - Incluir";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title text-secondary">Vacina</h4>
+        <div class="col-md-12 mt-4"><hr /></div>
+        <form id="myform" asp-action="Create" class="row g-3 mt-4">
+            <div class="text-danger col-12" asp-validation-summary="ModelOnly"></div>
+            <div class="form-floating col-auto">
+                <input asp-for="Nome" class="form-control" size="30" placeholder="#" />
+                <label asp-for="Nome" class="h6"></label>
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-12">
+                <input type="hidden" asp-for="LaboratorioId" value="-1" />
+                <input type="text" class="dropdown-toggle form-control-plaintext form-select" id="dropdownLaboratorio" data-bs-toggle="dropdown" aria-expanded="false" readonly onfocus="LimparPesquisa('#pesquisaLaboratorio')" />
+                <label asp-for="LaboratorioId" class="h6"></label>
+                <span asp-validation-for="LaboratorioId" class="text-danger"></span>
+                <ul class="dropdown-menu" aria-labelledby="dropdownLaboratorio">
+                    <li>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrependLaboratorio"><i class="bi bi-search"></i></span>
+                            <input class="form-control" id="pesquisaLaboratorio" type="text" onkeyup="FiltrarDropDown(this)" aria-describedby="inputGroupPrependLaboratorio" />
+                        </div>
+                    </li>
+                    <li>
+                        <ul>
+                            @foreach (Laboratorio laboratorio in (List<Laboratorio>)ViewData["listaLaboratorio"])
+                            {
+                                <li class="dropdown-item" data-id="@Html.DisplayFor(modelItem => laboratorio.LaboratorioId)" onclick="AtualizarValorDowpDown(this, '#dropdownLaboratorio', '#LaboratorioId')">
+                                    @Html.DisplayFor(modelItem => laboratorio.Nome)
+                                    <small class="text-muted">(@Html.DisplayFor(modelItem => laboratorio.LaboratorioId))</small>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-floating col-12">
+                <input type="hidden" asp-for="TipoVacinaId" value="-1" />
+                <input type="text" class="dropdown-toggle form-control-plaintext form-select" id="dropdownTipoVacina" data-bs-toggle="dropdown" aria-expanded="false" readonly onfocus="LimparPesquisa('#pesquisatipoVacina')" />
+                <label asp-for="TipoVacinaId" class="h6"></label>
+                <span asp-validation-for="TipoVacinaId" class="text-danger"></span>
+                <ul class="dropdown-menu" aria-labelledby="dropdownTipoVacina">
+                    <li>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrependTipoVacina"><i class="bi bi-search"></i></span>
+                            <input class="form-control" id="pesquisatipoVacina" type="text" onkeyup="FiltrarDropDown(this)" aria-describedby="inputGroupPrependTipoVacina" />
+                        </div>
+                    </li>
+                    <li>
+                        <ul>
+                            @foreach (TipoVacina tipoVacina in (List<TipoVacina>)ViewData["listaTipoVacina"])
+                            {
+                                <li class="dropdown-item" data-id="@Html.DisplayFor(modelItem => tipoVacina.TipoVacinaId)" onclick="AtualizarValorDowpDown(this, '#dropdownTipoVacina', '#TipoVacinaId')">
+                                    @Html.DisplayFor(modelItem => tipoVacina.Nome)
+                                    <small class="text-muted">(@Html.DisplayFor(modelItem => tipoVacina.TipoVacinaId))</small>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-floating col-12">
+                <input type="hidden" asp-for="AgentePatogenicoId" value="-1" />
+                <input type="text" class="dropdown-toggle form-control-plaintext form-select" id="dropdownAgentePatogenico" data-bs-toggle="dropdown" aria-expanded="false" readonly onfocus="LimparPesquisa('#pesquisaAgentePatogenico')" />
+                <label asp-for="AgentePatogenicoId" class="h6"></label>
+                <span asp-validation-for="AgentePatogenicoId" class="text-danger"></span>
+                <ul class="dropdown-menu" aria-labelledby="dropdownAgentePatogenico">
+                    <li>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrependAgentePatogenico"><i class="bi bi-search"></i></span>
+                            <input class="form-control" id="pesquisaAgentePatogenico" type="text" onkeyup="FiltrarDropDown(this)" aria-describedby="inputGroupPrependAgentePatogenico" />
+                        </div>
+                    </li>
+                    <li>
+                        <ul>
+                            @foreach (AgentePatogenico agentePatogenico in (List<AgentePatogenico>)ViewData["listaAgentePatogenico"])
+                            {
+                                <li class="dropdown-item" data-id="@Html.DisplayFor(modelItem => agentePatogenico.AgentePatogenicoId)" onclick="AtualizarValorDowpDown(this, '#dropdownAgentePatogenico', '#AgentePatogenicoId')">
+                                    @Html.DisplayFor(modelItem => agentePatogenico.Nome)
+                                    <small class="text-muted">(@Html.DisplayFor(modelItem => agentePatogenico.AgentePatogenicoId))</small>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm text-end">
+                <a href="#" onclick="$('#myform').submit()"><i class="bi bi-save2" style="font-size: 2rem" title="Incluir"></i></a>
+                <a asp-action="Index"><i class="bi bi-arrow-left-square" style="font-size: 2rem" title="Voltar"></i></a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

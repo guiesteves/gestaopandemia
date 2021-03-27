@@ -1,0 +1,29 @@
+﻿@model CVC19.ViewModel.TipoAgentePatogenicoViewModel
+
+@{
+    ViewData["Title"] = "Tipo de Agente Patogênico - Incluir";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title text-secondary">Tipo de Agente Patogênico</h4>
+        <div class="col-md-12 mt-4"><hr /></div>
+        <form id="myform" asp-action="Create" class="row g-3 mt-4">
+            <div class="text-danger col-md-12" asp-validation-summary="ModelOnly"></div>
+            <div class="form-floating col-auto">
+                <input asp-for="Nome" class="form-control" size="30" placeholder="#" />
+                <label asp-for="Nome" class="h6"></label>
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="col-sm text-end">
+                <a href="#" onclick="$('#myform').submit()"><i class="bi bi-save2" style="font-size: 2rem" title="Incluir"></i></a>
+                <a asp-action="Index"><i class="bi bi-arrow-left-square" style="font-size: 2rem" title="Voltar"></i></a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@{ChartJSCore.Models.Chart chartA = (ChartJSCore.Models.Chart)ViewData["chartA"]; }
+@{ChartJSCore.Models.Chart chartB = (ChartJSCore.Models.Chart)ViewData["chartB"]; }
+@{ChartJSCore.Models.Chart chartC = (ChartJSCore.Models.Chart)ViewData["chartC"]; }
+@{ChartJSCore.Models.Chart chartD = (ChartJSCore.Models.Chart)ViewData["chartD"]; }
+@{ChartJSCore.Models.Chart chartE = (ChartJSCore.Models.Chart)ViewData["chartE"]; }
+<div class="container-fluid">
+    <div class="text-center">
+        <h1 class="display-4">Bem Vindo!</h1>
+    </div>
+    <div class="row">
+        <div class="col col-md-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chartA"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chartB"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chartC"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chartD"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chartE"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    @Html.Raw(chartA.CreateChartCode("chartA"));
+    @Html.Raw(chartB.CreateChartCode("chartB"));
+    @Html.Raw(chartC.CreateChartCode("chartC"));
+    @Html.Raw(chartD.CreateChartCode("chartD"));
+    @Html.Raw(chartE.CreateChartCode("chartE"));
+</script>

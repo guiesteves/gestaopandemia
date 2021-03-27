@@ -1,0 +1,49 @@
+﻿@model CVC19.ViewModel.VacinaViewModel
+
+@{
+    ViewData["Title"] = "Detalhar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title text-secondary">Vacina</h4>
+        <div class="col-md-12 mt-4"><hr /></div>
+        <dl class="row">
+            <dt class="col-sm-2 text-secondary">
+                @Html.DisplayNameFor(model => model.VacinaId)
+            </dt>
+            <dd class="col-sm-10 ">
+                @Html.DisplayFor(model => model.VacinaId)
+            </dd>
+            <dt class="col-sm-2 text-secondary">
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd class="col-sm-10 ">
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt class="col-sm-2 text-secondary">
+                @Html.DisplayNameFor(model => model.LaboratorioId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LaboratorioNome)
+            </dd>
+            <dt class="col-sm-2 text-secondary">
+                @Html.DisplayNameFor(model => model.TipoVacinaId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TipoVacinaNome)
+            </dd>
+            <dt class="col-sm-2 text-secondary">
+                @Html.DisplayNameFor(model => model.AgentePatogenicoId)
+            </dt>
+            <dd class="col-sm-10 ">
+                @Html.DisplayFor(model => model.AgentePatogenicoNome)
+            </dd>
+        </dl>
+        <div class="col-sm text-end">
+            <a asp-action="Edit" asp-route-id="@Model.TipoVacinaId"><i class="bi bi-pencil-square text-primary" style="font-size: 2rem" title="Editar"></i></a>
+            <a asp-action="Index"><i class="bi bi-arrow-left-square" style="font-size: 2rem" title="Voltar"></i></a>
+        </div>
+    </div>
+</div>

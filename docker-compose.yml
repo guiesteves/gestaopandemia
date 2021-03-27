@@ -1,0 +1,41 @@
+﻿#referencia https://medium.com/@renato.groffe/postgresql-pgadmin-4-docker-compose-montando-rapidamente-um-ambiente-para-uso-55a2ab230b89
+# docker-compose up -d 
+# docker-compose down
+# docker network ls
+# docker-compose ps
+# http://localhost:16543/
+
+version: '3.4'
+
+services:
+  postgres-bm:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "123456"
+    ports:
+      - "15432:5432"
+    volumes:
+      - /mnt/c/SandboxPos/PostgresSQL:/var/lib/postgresql/data 
+    networks:
+      - postgres-bm-network
+      
+  pgadmin-bm:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "guiesteves@yahoo.com.br"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres-bm
+    networks:
+      - postgres-bm-network
+
+networks: 
+  postgres-bm-network:
+    driver: bridge
+    
+    
+    
+    
+

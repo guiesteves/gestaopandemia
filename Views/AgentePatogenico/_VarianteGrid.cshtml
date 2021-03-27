@@ -1,0 +1,47 @@
+﻿@model List<CVC19.ViewModel.VarianteAgentePatogenicoViewModel>
+@{
+
+    @if (Model != null)
+    {
+        for (int index = 0; index < Model.Count; index++)
+        {
+            <tr id="linha_@index" class="text-center">
+                <th scope="row">
+                    @if (!string.IsNullOrWhiteSpace(Model[index].VarianteAgentePatogenicoId))
+                    {
+                        @Html.DisplayFor(model => model[index].VarianteAgentePatogenicoId)
+                        <input type="hidden" asp-for="@Model[index].VarianteAgentePatogenicoId" name="ListaVarianteAgentePatogenicoViewModel[@index].VarianteAgentePatogenicoId" hidden />
+                        <input type="hidden" asp-for="@Model[index].AgentePatogenicoId" name="ListaVarianteAgentePatogenicoViewModel[@index].AgentePatogenicoId" hidden />
+                    }
+                </th>
+            <td>
+                @Html.DisplayFor(model => model[index].Nome)
+                <input asp-for="@Model[index].Nome" name="ListaVarianteAgentePatogenicoViewModel[@index].Nome" type="text"  hidden />
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[index].PrincipaisMutacoes)
+                <input asp-for="@Model[index].PrincipaisMutacoes" name="ListaVarianteAgentePatogenicoViewModel[@index].PrincipaisMutacoes" type="text" hidden />
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[index].Caracteristica)
+                <input asp-for="@Model[index].Caracteristica" name="ListaVarianteAgentePatogenicoViewModel[@index].Caracteristica" type="text" hidden />
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[index].PaisNome)
+                <input asp-for="@Model[index].PaisNome" name="ListaVarianteAgentePatogenicoViewModel[@index].PaisNome" type="text" hidden />
+                <input asp-for="@Model[index].PaisId" name="ListaVarianteAgentePatogenicoViewModel[@index].PaisId" type="text" hidden />
+            </td>
+            @if (ViewBag.ExibirBotoesGrid != null)
+            {
+                <td class="text-end">
+                    <a href="#" onclick="EditarVariante(this)"><i class="bi bi-pencil-square text-primary " style="font-size: 2rem" title="Editar"></i></a>
+                    <a href="#" onclick="ExcluirVariante(this)"><i class="bi bi-x-square text-danger" style="font-size: 2rem" title="Excluir"></i></a>
+                </td>
+            }
+    
+            </tr>
+        }
+    }
+}
+
+

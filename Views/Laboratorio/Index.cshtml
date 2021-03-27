@@ -1,0 +1,67 @@
+﻿@model IEnumerable<CVC19.ViewModel.LaboratorioViewModel>
+
+@{
+    ViewData["Title"] = "Laboratório - Listagem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title text-secondary">Laboratório</h4>
+        <div class="row ">
+            <div class="col-sm text-end">
+                <a asp-action="Create"><i class="bi bi-plus-square" style="font-size: 2rem" title="Novo Laboratório"></i></a>
+                <a asp-action="ObterPlanilha"><i class="bi bi-download" style="font-size: 2rem" title="Exportar Excel"></i></a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="bg-info">
+                    <tr>
+                        <th scope="col">
+                            <div class="text-center">
+                                @Html.DisplayNameFor(model => model.LaboratorioId)
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                @Html.DisplayNameFor(model => model.Nome)
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                @Html.DisplayNameFor(model => model.PaisId)
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                Ações
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr class="text-center">
+                        <th scope="row">
+                            @Html.DisplayFor(modelItem => item.LaboratorioId)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NomePais)
+                        </td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@item.LaboratorioId"><i class="bi bi-receipt text-secondary" style="font-size: 2rem" title="Detalhar"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.LaboratorioId"><i class="bi bi-pencil-square text-primary " style="font-size: 2rem" title="Editar"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.LaboratorioId"><i class="bi bi-x-square text-danger" style="font-size: 2rem" title="Excluir"></i></a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
