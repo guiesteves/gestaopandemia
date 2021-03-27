@@ -17,6 +17,6 @@ RUN dotnet publish "CVC19.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-#ENTRYPOINT ["dotnet", "CVC19.dll"]
+ENTRYPOINT ["dotnet", "CVC19.dll"]
 
-CMD ASPNETCORE_URLS="http://*:$PORT" dotnet CVC19.dll
+#CMD ASPNETCORE_URLS="http://*:$PORT" dotnet CVC19.dll
