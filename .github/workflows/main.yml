@@ -1,0 +1,30 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI-DEPLOY-HEROKU
+
+#referencia https://medium.com/@rvaraujo.sp/publicando-uma-aplica%C3%A7%C3%A3o-net-core-no-heroku-com-github-actions-53cd83bd79aa
+on:  
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the tagged Docker image
+      run: docker build . --file Dockerfile.heroku --tag qualityquestions
+    - name: Tag Docker image
+      run: docker tag qualityquestions registry.heroku.com/${{secrets.HEROKU_APP_NAME}}/web
+    - name: Login to Heroku Container registry
+      env: 
+        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+      run: heroku container:login
+    - name: Build and push
+      env:
+        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+      run: heroku container:push -a ${{secrets.HEROKU_APP_NAME}} web 
+    - name: Release
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{secrets.HEROKU_APP_NAME}} web
