@@ -13,9 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the tagged Docker image
-      run: docker build . --file Dockerfile.heroku --tag qualityquestions
+      run: docker build . --file dockerfile.heroku --tag gestaopandemia
     - name: Tag Docker image
-      run: docker tag qualityquestions registry.heroku.com/${{secrets.HEROKU_APP_NAME}}/web
+      run: docker tag gestaopandemia registry.heroku.com/${{secrets.HEROKU_APP_NAME}}/web
     - name: Login to Heroku Container registry
       env: 
         HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
