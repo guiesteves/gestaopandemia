@@ -33,11 +33,11 @@ namespace CVC19.Controllers
 
         public IActionResult Index()
         {
-            ViewData["chartA"] = GenerateBarChart(_vacinaDaoDao.ObterQuantidadeVacinaPorLaboratorio(), "Quantidade Vacinas Por Laboratório");
-            ViewData["chartB"] = GeneratePieChart(_varianteAgentePatogenicoDao.ObterQuantidadeVariantesPorPais(), "Quantidade Variantes Por País");
-            ViewData["chartC"] = GeneratePieChart(_laboratorioDao.ObterQuantidadeLaboratoriosPorPais(), "Quantidade Laboratórios Por País");
-            ViewData["chartD"] = GeneratePieChart(_vacinaDaoDao.ObterQuantidadeVacinaPorTipoVacina(), "Quantidade Vacinas Por Tipo");
-            ViewData["chartE"] = GeneratePieChart(_varianteAgentePatogenicoDao.ObterQuantidadeVariantesPorAgentePatogenico(), "Quantidade de Variantes Por Agente Patogênico");
+            ViewData["chartA"] = GenerateBarChart(_vacinaDaoDao.ObterQuantidadeVacinaPorLaboratorio(), "Quantidade Vacinas Por Laboratório", 6);
+            ViewData["chartB"] = GeneratePieChart(_varianteAgentePatogenicoDao.ObterQuantidadeVariantesPorPais(), "Quantidade Variantes Por País", 6);
+            ViewData["chartC"] = GeneratePieChart(_laboratorioDao.ObterQuantidadeLaboratoriosPorPais(), "Quantidade Laboratórios Por País", 6);
+            ViewData["chartD"] = GeneratePieChart(_vacinaDaoDao.ObterQuantidadeVacinaPorTipoVacina(), "Quantidade Vacinas Por Tipo", 6);
+            ViewData["chartE"] = GeneratePieChart(_varianteAgentePatogenicoDao.ObterQuantidadeVariantesPorAgentePatogenico(), "Quantidade de Variantes Por Agente Patogênico", 6);
 
             return View();
         }
@@ -49,14 +49,22 @@ namespace CVC19.Controllers
         }
 
 
-        private static Chart GenerateBarChart(List<Tuple<string, int>> lista, string titulo)
+        private static Chart GenerateBarChart(List<Tuple<string, int>> lista, string titulo, int quantidadeMaximaItens)
         {
-            List<Dataset> datasets = new();
+            quantidadeMaximaItens -= 1;
 
-            for (int i = 0; i < lista.Count; i++)
+            List<Dataset> datasets = new();
+            (byte, byte, byte) rgb;
+
+            if (quantidadeMaximaItens >= lista.Count) 
+            {
+                quantidadeMaximaItens = lista.Count;
+            }
+
+            for (int i = 0; i < quantidadeMaximaItens; i++)
             {
                 Tuple<string, int> dados = lista[i];
-                (byte, byte, byte) rgb = GerarRGB();
+                rgb = GerarRGB();
 
                 datasets.Add(new BarDataset()
                 {
@@ -67,6 +75,26 @@ namespace CVC19.Controllers
                     Label = dados.Item1
                 });
             }
+
+            if (quantidadeMaximaItens < lista.Count) 
+            {
+                int valor = 0;
+                for (int i = quantidadeMaximaItens; i < lista.Count; i++)
+                {
+                    valor += lista[i].Item2;
+                }
+
+                rgb = GerarRGB();
+                datasets.Add(new BarDataset()
+                {
+
+                    Data = new List<double?>() { valor },
+                    BackgroundColor = new List<ChartColor>() { ChartColor.FromRgba(rgb.Item1, rgb.Item2, rgb.Item3, 0.9) },
+                    BorderColor = new List<ChartColor>() { ChartColor.FromRgb(rgb.Item1, rgb.Item2, rgb.Item3) },
+                    Label = "Outros"
+                });
+            }
+            
 
             Chart chart = new()
             {
@@ -137,16 +165,47 @@ namespace CVC19.Controllers
             return chart;
         }
 
-        private static Chart GeneratePieChart(List<Tuple<string, int>> lista, string titulo)
+        private static Chart GeneratePieChart(List<Tuple<string, int>> lista, string titulo, int quantidadeMaximaItens)
         {
-
+            quantidadeMaximaItens -= 1;
             List<ChartColor> chartColorBackground = new();
             List<ChartColor> chartColorHoverBackground = new();
-            for (int i = 0; i < lista.Count; i++)
+            List<string> titulos = new();
+            List<double?> valores = new();
+            (byte, byte, byte) rgb;
+            
+            if (quantidadeMaximaItens >= lista.Count)
             {
-                (byte, byte, byte) rgb = GerarRGB();
+                quantidadeMaximaItens = lista.Count;
+            }
+
+            for (int i = 0; i < quantidadeMaximaItens; i++)
+            {
+                rgb = GerarRGB();
                 chartColorBackground.Add(ChartColor.FromRgba(rgb.Item1, rgb.Item2, rgb.Item3, 0.7));
                 chartColorHoverBackground.Add(ChartColor.FromRgb(rgb.Item1, rgb.Item2, rgb.Item3));
+                titulos.Add(lista[i].Item1);
+                valores.Add(lista[i].Item2);
+            }
+            if (quantidadeMaximaItens < lista.Count)
+            {
+                int valor = 0;
+                for (int i = quantidadeMaximaItens; i < lista.Count; i++)
+                {
+                    valor += lista[i].Item2;
+                }
+
+                int valorOutros = 0;
+                for (int i = quantidadeMaximaItens; i < lista.Count; i++)
+                {
+                    valorOutros += lista[i].Item2;
+                }
+
+                rgb = GerarRGB();
+                chartColorBackground.Add(ChartColor.FromRgba(rgb.Item1, rgb.Item2, rgb.Item3, 0.7));
+                chartColorHoverBackground.Add(ChartColor.FromRgb(rgb.Item1, rgb.Item2, rgb.Item3));
+                titulos.Add("Outros");
+                valores.Add(valorOutros);
             }
 
             Chart chart = new()
@@ -154,14 +213,14 @@ namespace CVC19.Controllers
                 Type = Enums.ChartType.Pie,
                 Data = new()
                 {
-                    Labels = lista.Select(l => l.Item1).ToList(),
+                    Labels = titulos,
                     Datasets = new List<Dataset>()
                     {
                         new PieDataset()
                         {
                             BackgroundColor = chartColorBackground,
                             HoverBackgroundColor =chartColorHoverBackground,
-                            Data = lista.Select(l => l.Item2).Select<int, double?>(i => i).ToList(),
+                            Data = valores,
                         }
                     }
                 },
