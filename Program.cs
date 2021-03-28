@@ -16,7 +16,10 @@ namespace CVC19
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT"));
+                    if (!Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
+                    {
+                        webBuilder.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT"));
+                    }
                 });
     }
 }
