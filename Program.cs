@@ -16,7 +16,7 @@ namespace CVC19
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    if (!Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
+                    if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("HEROKU_ENVIRONMENT")))
                     {
                         webBuilder.UseUrls("http://*:" + Environment.GetEnvironmentVariable("PORT"));
                     }
