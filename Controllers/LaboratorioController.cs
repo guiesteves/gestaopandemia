@@ -3,6 +3,7 @@ using ClosedXML.Excel;
 using CVC19.Data.Dao;
 using CVC19.Models;
 using CVC19.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace CVC19.Controllers
 {
+    [Authorize]
     public class LaboratorioController : Controller
     {
         private readonly LaboratorioDao _laboratorioDao;

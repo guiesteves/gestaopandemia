@@ -2,6 +2,7 @@
 using ChartJSCore.Models;
 using CVC19.Data.Dao;
 using CVC19.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Linq;
 
 namespace CVC19.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly VarianteAgentePatogenicoDao _varianteAgentePatogenicoDao;

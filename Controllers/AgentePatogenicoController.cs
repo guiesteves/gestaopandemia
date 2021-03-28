@@ -10,9 +10,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CVC19.Controllers
 {
+    [Authorize]
     public class AgentePatogenicoController : Controller
     {
         private readonly ApplicationDbContext _context;
