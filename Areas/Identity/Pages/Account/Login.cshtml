@@ -1,0 +1,60 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<div class="card login">
+    <div class="card-body">
+        <h4 class="card-title text-center fs-2">@ViewData["Title"]</h4>
+        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form">
+            <div class="d-grid gap-2">
+                @foreach (var provider in Model.ExternalLogins)
+                {
+                    <button type="submit" name="provider" class="btn btn-danger" value="@provider.Name" title="Entrar com sua conta do @provider.DisplayName">
+                        <i class="bi bi-google me-2"></i>
+                        <span>Entrar com </span>
+                        <span class="fw-bold">@provider.DisplayName</span>
+                    </button>
+                }
+            </div>
+        </form>
+        <div class="or-seperator"><i>ou</i></div>
+        <form id="account" method="post" class="row g-3">
+            <div class="text-danger col-md-12" asp-validation-summary="ModelOnly"></div>
+            <div class="input-group col-12">
+                <span class="input-group-text" id="idEmail"><i class="bi bi-envelope-fill"></i></span>
+                <input asp-for="Input.Email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="idEmail">
+            </div>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+            <div class="input-group col-12">
+                <span class="input-group-text" id="idSenha"><i class="bi bi-key-fill"></i></span>
+                <input asp-for="Input.Password" class="form-control" placeholder="Senha" aria-label="Senha" aria-describedby="idSenha">
+            </div>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </div>
+            <div>
+                <div class="float-start">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                        
+                    </div>
+                </div>
+                <div class="float-end">
+                    <a id="forgot-password" asp-page="./ForgotPassword">Esqueceu a Senha?</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
