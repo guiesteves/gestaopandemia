@@ -25,6 +25,34 @@
             </div>
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
 
+            <div class="input-group col-12">
+                <input type="hidden" asp-for="PaisId" value="-1" />
+                <input type="text" class="dropdown-toggle form-control-plaintext form-select" id="dropdownPais" data-bs-toggle="dropdown" aria-expanded="false" readonly onfocus="LimparPesquisa('#pesquisa')" />
+                <label asp-for="PaisId" class="h6"></label>
+                <span asp-validation-for="PaisId" class="text-danger"></span>
+                <ul class="dropdown-menu" aria-labelledby="dropdownPais">
+                    <li>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-search"></i></span>
+                            <input class="form-control" id="pesquisa" type="text" onkeyup="FiltrarDropDown(this)" aria-describedby="inputGroupPrepend" />
+                        </div>
+                    </li>
+                    <li>
+                        <ul>
+                            @foreach (Pais pais in (List<Pais>)ViewData["listaPais"])
+                            {
+                                string sigla = pais.Sigla.ToLower();
+                                <li class="dropdown-item" data-id="@Html.DisplayFor(modelItem => pais.PaisId)" onclick="AtualizarValorDowpDown(this, '#dropdownPais', '#PaisId')">
+                                    <span class="flag-icon flag-icon-@Html.DisplayFor(modelItem => sigla)"></span>
+                                    @Html.DisplayFor(modelItem => pais.Nome)
+                                    <small class="text-muted">(@Html.DisplayFor(modelItem => pais.PaisId))</small>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary">Registrar</button>
             </div>

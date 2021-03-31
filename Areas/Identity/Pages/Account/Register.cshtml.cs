@@ -55,7 +55,7 @@ namespace CVC19.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Este campo é obrigatório")]
             [StringLength(8, ErrorMessage = "A {0} precisa ter no mínimo {2} e no máximo {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Senha")]
@@ -65,6 +65,10 @@ namespace CVC19.Areas.Identity.Pages.Account
             [Display(Name = "Confirmação de Senha")]
             [Compare("Password", ErrorMessage = "A senha e a confirmação não são iguais.")]
             public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = "Este campo é obrigatório")]
+            [Display(Name = "Perfil")]
+            public string perfil { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -84,7 +88,7 @@ namespace CVC19.Areas.Identity.Pages.Account
                 using var transaction = _context.Database.BeginTransaction();
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                await _userManager.AddToRoleAsync(user, "ADMIN");
+                await _userManager.AddToRoleAsync(user, Input.perfil);
 
                 transaction.Commit();
 
