@@ -7,7 +7,7 @@
 
 <div class="card login">
     <div class="card-body">
-        <h4 class="card-title text-center fs-2">@ViewData["Title"]</h4>
+        <h4 class="card-title text-center fs-2">@ViewData["Title"]</h4> 
         <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="row g-3 mt-2 mb-4">
             <div class="d-grid gap-2">
                 @foreach (var provider in Model.ExternalLogins)
