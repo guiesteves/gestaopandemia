@@ -1,0 +1,38 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Registrar";
+}
+
+<div class="card login">
+    <div class="card-body">
+        <h4 class="card-title text-center fs-2">@ViewData["Title"]</h4>
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="row g-3">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="input-group col-12">
+                <span class="input-group-text" id="idEmail"><i class="bi bi-envelope-fill"></i></span>
+                <input asp-for="Input.Email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="idEmail">
+            </div>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+            <div class="input-group col-12">
+                <span class="input-group-text" id="idSenha"><i class="bi bi-key-fill"></i></span>
+                <input asp-for="Input.Password" class="form-control" placeholder="Senha" aria-label="Senha" aria-describedby="idSenha">
+            </div>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <div class="input-group col-12">
+                <span class="input-group-text" id="idConfirmacaoSenha"><i class="bi bi-key-fill"></i></span>
+                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirmação de Senha" aria-label="Confirmação de Senha" aria-describedby="idConfirmacaoSenha">
+            </div>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+    
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -90,7 +90,7 @@ namespace CVC19.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
+                    ModelState.AddModelError(string.Empty, "Email ou senha inválida.");
                     return Page();
                 }
             }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CVC19.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ADMIN, GESTOR_PATOGENO")]
     public class TipoAgentePatogenicoController : Controller
     {
         private readonly TipoAgentePatogenicoDao _tipoAgentePatogenicoDao;

@@ -1998,6 +1998,29 @@ namespace CVC19.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "468274e6-bac9-48a6-aaa2-f3a875b568f3",
+                            Name = "ADMIN",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "5279f6e2-eb46-435f-8635-fbd88a791fab",
+                            Name = "GESTOR_VACINA",
+                            NormalizedName = "GESTOR_VACINA"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            ConcurrencyStamp = "b147c56c-2673-42d7-8068-935c289b73f5",
+                            Name = "GESTOR_PATOGENO",
+                            NormalizedName = "GESTOR_PATOGENO"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -2086,6 +2109,56 @@ namespace CVC19.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1ff6e1f7-2049-434b-8e5a-93d454203652",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0799389d-af42-4530-8b63-4efff19fb702",
+                            Email = "gestor.patogeno@gestaopandemia.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "GESTOR.PATOGENO@GESTAOPANDEMIA.COM.BR",
+                            NormalizedUserName = "GESTOR.PATOGENO@GESTAOPANDEMIA.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDnGJexv5zVzdMX9JOmG2bzgpcOLKfy9ra6cMqZr8JGIdxq7PxqR1lkCU+Pg0Gqecw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "KNIHZXZV42FGMK7XZDGEIX6P6QPUICGU",
+                            TwoFactorEnabled = false,
+                            UserName = "gestor.patogeno@gestaopandemia.com.br"
+                        },
+                        new
+                        {
+                            Id = "3872c9f1-555b-486f-a5e5-5f0de852b677",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "efedc7fc-f4b6-444e-be24-61aef4f24f0e",
+                            Email = "gestor.vacina@gestaopandemia.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "GESTOR.VACINA@GESTAOPANDEMIA.COM.BR",
+                            NormalizedUserName = "GESTOR.VACINA@GESTAOPANDEMIA.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEhruVTtYGoBjbjyyKVnIx10uuPr5Me0VYWkUwPXZynAOSpAZxlk8Umwj92FDimzgw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "Z2YZBTQXYJYYTIN2ORODRQWI3RPJN5ZS",
+                            TwoFactorEnabled = false,
+                            UserName = "gestor.vacina@gestaopandemia.com.br"
+                        },
+                        new
+                        {
+                            Id = "95c36366-0c04-41fc-b317-f77655da019d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "62e0cbc7-8747-4dbb-8bdd-e256c5b6d3cf",
+                            Email = "adminstrador@gestaopandemia.com.br",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMINSTRADOR@GESTAOPANDEMIA.COM.BR",
+                            NormalizedUserName = "ADMINSTRADOR@GESTAOPANDEMIA.COM.BR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBhFLa833zCa3xvqBMqCpq4eJN2Ub7k91Dqdyh0Fgf2RuX3KVcw6HKFZpXCRXEoWTA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "YWCTGIE4H4U22NNV5K4NUA6EH5MQYG5B",
+                            TwoFactorEnabled = false,
+                            UserName = "adminstrador@gestaopandemia.com.br"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -2149,6 +2222,23 @@ namespace CVC19.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "95c36366-0c04-41fc-b317-f77655da019d",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "3872c9f1-555b-486f-a5e5-5f0de852b677",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "1ff6e1f7-2049-434b-8e5a-93d454203652",
+                            RoleId = "3"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

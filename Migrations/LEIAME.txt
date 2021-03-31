@@ -2,3 +2,20 @@
 dotnet ef database update
 dotnet ef database drop --dry-run
 dotnet ef migrations remove
+
+
+drop table public."AspNetRoleClaims";
+drop table public."AspNetUserRoles";
+drop table public."AspNetRoles";
+drop table public."AspNetUserClaims";
+drop table public."AspNetUserLogins";
+drop table public."AspNetUserTokens";
+drop table public."AspNetUsers";
+drop table public."Vacina";
+drop table public."Laboratorio";
+drop table public."TipoVacina";
+drop table public."VarianteAgentePatogenico";
+drop table public."AgentePatogenico";
+drop table public."TipoAgentePatogenico";
+drop table public."Pais";
+drop table public."__EFMigrationsHistory";

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CVC19.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ADMIN, GESTOR_PATOGENO")]
     public class AgentePatogenicoController : Controller
     {
         private readonly ApplicationDbContext _context;

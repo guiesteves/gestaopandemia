@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
@@ -24,36 +28,42 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Gestão Vacinas
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item text-dark" asp-controller="TipoVacina" asp-action="Index">Tipo de Vacina</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Vacina" asp-action="Index">Vacina</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Laboratorio" asp-action="Index">Laboratório</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Gestão Agente Patogênico
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" asp-controller="AgentePatogenico" asp-action="Index">Agente Patogênico</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="TipoAgentePatogenico" asp-action="Index">Tipo do Agente Patogênico</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                        @if (User.IsInRole("ADMIN") || User.IsInRole("GESTOR_VACINA"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Gestão Vacinas
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item text-dark" asp-controller="TipoVacina" asp-action="Index">Tipo de Vacina</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Vacina" asp-action="Index">Vacina</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Laboratorio" asp-action="Index">Laboratório</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        @if (User.IsInRole("ADMIN") || User.IsInRole("GESTOR_PATOGENO"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Gestão Agente Patogênico
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="AgentePatogenico" asp-action="Index">Agente Patogênico</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="TipoAgentePatogenico" asp-action="Index">Tipo do Agente Patogênico</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -67,10 +77,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            <p class="text-center mw-100"> 
+            <p class="text-center mw-100">
                 &copy;2021 - CP - TCC - Desenv. Web Full Stack - <a href="https://www.pucminas.br/" target="_blank">PUC-MG</a>
             </p>
-    </div>
+        </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CVC19.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ADMIN, GESTOR_VACINA")]
     public class LaboratorioController : Controller
     {
         private readonly LaboratorioDao _laboratorioDao;
