@@ -65,10 +65,6 @@ namespace CVC19.Areas.Identity.Pages.Account
             [Display(Name = "Confirmação de Senha")]
             [Compare("Password", ErrorMessage = "A senha e a confirmação não são iguais.")]
             public string ConfirmPassword { get; set; }
-
-            [Required(ErrorMessage = "Este campo é obrigatório")]
-            [Display(Name = "Perfil")]
-            public string perfil { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -88,7 +84,7 @@ namespace CVC19.Areas.Identity.Pages.Account
                 using var transaction = _context.Database.BeginTransaction();
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                await _userManager.AddToRoleAsync(user, Input.perfil);
+                await _userManager.AddToRoleAsync(user, "ADMIN");
 
                 transaction.Commit();
 
@@ -96,7 +92,7 @@ namespace CVC19.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("Usuário Criado.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                   /* var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
@@ -112,10 +108,10 @@ namespace CVC19.Areas.Identity.Pages.Account
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
-                    {
+                    {*/
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
-                    }
+                    //}
                 }
                 foreach (var error in result.Errors)
                 {
