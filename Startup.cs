@@ -4,6 +4,7 @@ using CVC19.Data.Dao;
 using CVC19.ViewModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +51,13 @@ namespace CVC19
             });
 
 
-            
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+
+            });
+
+
             services.AddScoped<AgentePatogenicoDao>();
             services.AddScoped<LaboratorioDao>();
             services.AddScoped<PaisDao>();
