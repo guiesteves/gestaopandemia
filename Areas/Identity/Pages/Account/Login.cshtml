@@ -13,9 +13,11 @@
                 @foreach (var provider in Model.ExternalLogins) 
                 {
                     <button type="submit" name="provider" class="btn btn-primary" value="@provider.Name" title="Entrar com sua conta do @provider.DisplayName">
-                        <i class="bi bi-twitter"></i>
+                        <div class="float-start">
+                            <i class="bi bi-twitter"></i>
+                        </div>
                         <span>Entrar com </span>
-                        <span class="fw-bold">@provider.DisplayName</span>
+                            <span class="fw-bold">@provider.DisplayName</span>
                     </button>
                 }
             </div>
