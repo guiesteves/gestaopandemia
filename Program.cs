@@ -19,10 +19,12 @@ namespace CVC19
                     config.Sources.Clear();
 
                     var env = hostingContext.HostingEnvironment;
-                   
-                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
+
+                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+#if DEBUG
+                    config.AddJsonFile($"appsettings.{env.EnvironmentName}.json",
                                          optional: true, reloadOnChange: true);
+#endif
 
                     config.AddEnvironmentVariables();
 
