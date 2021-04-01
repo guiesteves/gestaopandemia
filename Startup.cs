@@ -45,24 +45,12 @@ namespace CVC19
             }).AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            /*services.AddAuthentication().AddGoogle(options =>
-            {
-                options.ClientId = Configuration["GOOGLE_CLIENT_ID"];
-                options.ClientSecret = Configuration["GOOGLE_CLIENT_SECRET"];
-            });*/
             services.AddAuthentication().AddTwitter(twitterOptions =>
             {
                 twitterOptions.ConsumerKey = Configuration["TWITTER_CONSUMER_KEY"];
                 twitterOptions.ConsumerSecret = Configuration["TWITTER_SECRET"];
                 twitterOptions.RetrieveUserDetails = true;
             });
-
-
-            /*services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.MinimumSameSitePolicy = SameSiteMode.Strict;
-
-            });*/
 
 
             services.AddScoped<AgentePatogenicoDao>();
@@ -128,20 +116,6 @@ namespace CVC19
             app.UseAuthentication();
             app.UseAuthorization();
 
-            /*app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedProto
-            });*/
-
-           /* app.Use(next => context => {
-                if (string.Equals(context.Request.Headers["X-Forwarded-Proto"], "https", StringComparison.OrdinalIgnoreCase))
-                {
-                    context.Request.Scheme = "https";
-                }
-
-                return next(context);
-            });
-*/
             app.UseCookiePolicy();
 
             app.UseEndpoints(endpoints =>
