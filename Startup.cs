@@ -45,10 +45,16 @@ namespace CVC19
             }).AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddAuthentication().AddGoogle(options =>
+            /*services.AddAuthentication().AddGoogle(options =>
             {
                 options.ClientId = Configuration["GOOGLE_CLIENT_ID"];
                 options.ClientSecret = Configuration["GOOGLE_CLIENT_SECRET"];
+            });*/
+            services.AddAuthentication().AddTwitter(twitterOptions =>
+            {
+                twitterOptions.ConsumerKey = Configuration["TWITTER_CONSUMER_KEY"];
+                twitterOptions.ConsumerSecret = Configuration["TWITTER_SECRET"];
+                twitterOptions.RetrieveUserDetails = true;
             });
 
 
