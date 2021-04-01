@@ -58,11 +58,11 @@ namespace CVC19
             });
 
 
-            services.Configure<CookiePolicyOptions>(options =>
+            /*services.Configure<CookiePolicyOptions>(options =>
             {
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
 
-            });
+            });*/
 
 
             services.AddScoped<AgentePatogenicoDao>();
@@ -128,12 +128,12 @@ namespace CVC19
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            /*app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedProto
-            });
+            });*/
 
-            app.Use(next => context => {
+           /* app.Use(next => context => {
                 if (string.Equals(context.Request.Headers["X-Forwarded-Proto"], "https", StringComparison.OrdinalIgnoreCase))
                 {
                     context.Request.Scheme = "https";
@@ -141,7 +141,7 @@ namespace CVC19
 
                 return next(context);
             });
-
+*/
             app.UseCookiePolicy();
 
             app.UseEndpoints(endpoints =>
