@@ -14,17 +14,18 @@ namespace CVC19
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) =>
+  
+#if DEBUG
+            .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     config.Sources.Clear();
 
                     var env = hostingContext.HostingEnvironment;
 
-                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-#if DEBUG
-                    config.AddJsonFile($"appsettings.{env.EnvironmentName}.json",
+                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
                                          optional: true, reloadOnChange: true);
-#endif
+
 
                     config.AddEnvironmentVariables();
 
@@ -33,6 +34,7 @@ namespace CVC19
                         config.AddCommandLine(args);
                     }
                 })
+#endif
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
