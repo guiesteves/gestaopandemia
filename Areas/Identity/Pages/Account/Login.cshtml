@@ -12,7 +12,7 @@
             <div class="d-grid gap-2">
                 @foreach (var provider in Model.ExternalLogins) 
                 {
-                    <button type="submit" name="provider" class="btn btn-primary" value="@provider.Name" title="Entrar com sua conta do @provider.DisplayName">
+                    <button type="submit" name="provider" class="btn twitter-button" value="@provider.Name" title="Entrar com sua conta do @provider.DisplayName">
                         <div class="float-start">
                             <i class="bi bi-twitter"></i>
                         </div>
