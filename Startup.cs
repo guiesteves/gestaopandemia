@@ -127,6 +127,15 @@ namespace CVC19
                 ForwardedHeaders = ForwardedHeaders.XForwardedProto
             });
 
+            app.Use(next => context => {
+                if (string.Equals(context.Request.Headers["X-Forwarded-Proto"], "https", StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Request.Scheme = "https";
+                }
+
+                return next(context);
+            });
+
             app.UseCookiePolicy();
 
             app.UseEndpoints(endpoints =>
