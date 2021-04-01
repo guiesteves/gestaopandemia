@@ -15,26 +15,27 @@ namespace CVC19
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
   
-#if DEBUG
             .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    config.Sources.Clear();
-
-                    var env = hostingContext.HostingEnvironment;
-
-                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
-                                         optional: true, reloadOnChange: true);
-
-
-                    config.AddEnvironmentVariables();
-
-                    if (args != null)
+                    if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("HEROKU_ENVIRONMENT")))
                     {
-                        config.AddCommandLine(args);
+                        config.Sources.Clear();
+
+                        var env = hostingContext.HostingEnvironment;
+
+                        config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                              .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
+                                             optional: true, reloadOnChange: true);
+
+
+                        config.AddEnvironmentVariables();
+
+                        if (args != null)
+                        {
+                            config.AddCommandLine(args);
+                        }
                     }
                 })
-#endif
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
