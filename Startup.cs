@@ -121,6 +121,8 @@ namespace CVC19
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCookiePolicy();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
