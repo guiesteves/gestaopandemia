@@ -17,18 +17,16 @@ namespace CVC19.Controllers
     [Authorize(Roles = "ADMIN, GESTOR_PATOGENO")]
     public class AgentePatogenicoController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly AgentePatogenicoDao _agentePatogenicoDao;
         private readonly VarianteAgentePatogenicoDao _varianteAgentePatogenicoDao;
         private readonly TipoAgentePatogenicoDao _tipoAgentePatogenicoDao;
         private readonly PaisDao _paisDao;
         private readonly IMapper _mapper;
 
-        public AgentePatogenicoController(IMapper mapper, ApplicationDbContext context, AgentePatogenicoDao agentePatogenicoDao,
+        public AgentePatogenicoController(IMapper mapper, AgentePatogenicoDao agentePatogenicoDao,
                                           TipoAgentePatogenicoDao tipoAgentePatogenicoDao, PaisDao paisDao,
                                           VarianteAgentePatogenicoDao varianteAgentePatogenicoDao)
         {
-            _context = context;
             _agentePatogenicoDao = agentePatogenicoDao;
             _tipoAgentePatogenicoDao = tipoAgentePatogenicoDao;
             _paisDao = paisDao;
@@ -78,11 +76,10 @@ namespace CVC19.Controllers
         {
             if (ModelState.IsValid)
             {
-                using var transaction = _context.Database.BeginTransaction();
+                using var transaction = _agentePatogenicoDao.ObterNovaTransacao();
 
                 _agentePatogenicoDao.Incluir(_mapper.Map<AgentePatogenico>(agentePatogenicoViewModel));
-                _context.SaveChanges();
-
+              
                 transaction.Commit();
 
                 return RedirectToAction(nameof(Index));
@@ -133,7 +130,7 @@ namespace CVC19.Controllers
                 try
                 {
 
-                    using var transaction = _context.Database.BeginTransaction();
+                    using var transaction = _varianteAgentePatogenicoDao.ObterNovaTransacao();
 
                     //Exclui Varinates foram excluidas na tela
                     _varianteAgentePatogenicoDao.ExcluirPorAgentePatogenicoNaoExistentesLista(int.Parse(agentePatogenicoViewModel.AgentePatogenicoId),
@@ -142,8 +139,7 @@ namespace CVC19.Controllers
                                                                                               .Select(i => int.Parse(i.VarianteAgentePatogenicoId)).ToList());
 
                     _agentePatogenicoDao.Atualizar(_mapper.Map<AgentePatogenico>(agentePatogenicoViewModel));
-                    _context.SaveChanges();
-
+               
                     transaction.Commit();
 
 
@@ -194,11 +190,9 @@ namespace CVC19.Controllers
         {
             var agentePatogenico = await _agentePatogenicoDao.RecuperarPorIdAsync(id);
 
-            using var transaction = _context.Database.BeginTransaction();
+            using var transaction = _agentePatogenicoDao.ObterNovaTransacao();
 
             _agentePatogenicoDao.Excluir(agentePatogenico);
-
-            _context.SaveChanges();
 
             transaction.Commit();
 
@@ -209,14 +203,6 @@ namespace CVC19.Controllers
         {
             return _agentePatogenicoDao.ExistePorId(id);
         }
-
-        /*[HttpPost("[action]")]
-        public async Task<IActionResult> IncluirVariante(VarianteAgentePatogenicoViewModel varianteAgentePatogenicoViewModel)
-        {
-            varianteAgentePatogenico.Pais = await _paisDao.RecuperarPorIdAsync(varianteAgentePatogenicoViewModel.PaisId);
-            return PartialView("_VarianteGrid", new List<VarianteAgentePatogenico>() { varianteAgentePatogenico });
-        }*/
-
 
         public async Task<IActionResult> ObterPlanilha()
         {

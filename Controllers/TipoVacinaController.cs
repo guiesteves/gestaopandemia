@@ -16,11 +16,14 @@ namespace CVC19.Controllers
     public class TipoVacinaController : Controller
     {
         private readonly TipoVacinaDao _tipoVacinaDao;
+        private readonly VacinaDao _vacinaDao;
         private readonly IMapper _mapper;
 
-        public TipoVacinaController(IMapper mapper, TipoVacinaDao tipoVacinaDao)
+        public TipoVacinaController(IMapper mapper, TipoVacinaDao tipoVacinaDao,
+                                    VacinaDao vacinaDao)
         {
             _tipoVacinaDao = tipoVacinaDao;
+            _vacinaDao = vacinaDao;
             _mapper = mapper;
         }
 
@@ -143,6 +146,12 @@ namespace CVC19.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tipoVacina = await _tipoVacinaDao.RecuperarPorIdAsync(id);
+            
+            if (_vacinaDao.ExistePorTipoVacinaId(tipoVacina.TipoVacinaId))
+            {
+                ModelState.AddModelError(string.Empty, "Não é possivel excluir pois existe vacina vinculado a este tipo de vacina");
+                return View(_mapper.Map<TipoVacinaViewModel>(tipoVacina));
+            }
 
             _tipoVacinaDao.Excluir(tipoVacina);
             return RedirectToAction(nameof(Index));

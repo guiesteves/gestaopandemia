@@ -21,6 +21,11 @@ namespace CVC19.Data.Dao
             return _context.Database.BeginTransaction();
         }
 
+        public int SalvarAlteracoesContexto()
+        {
+            return _context.SaveChanges();
+        }
+
         public void Incluir(TEntidade entidade)
         {
             _context.Add(entidade);

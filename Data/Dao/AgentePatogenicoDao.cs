@@ -30,5 +30,11 @@ namespace CVC19.Data.Dao
         {
             return _context.AgentePatogenico.Any(a => a.AgentePatogenicoId == id);
         }
+
+
+        public bool ExistePorTipoAgentePatogenicoId(int idTipoAgentePatogenico)
+        {
+            return _context.AgentePatogenico.Any(a => a.TipoAgentePatogenicoId == idTipoAgentePatogenico);
+        }
     }
 }

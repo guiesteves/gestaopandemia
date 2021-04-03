@@ -33,6 +33,11 @@ namespace CVC19.Data.Dao
             return _context.Vacina.Any(a => a.VacinaId == id);
         }
 
+        public bool ExistePorTipoVacinaId(int tipoVacinaId)
+        {
+            return _context.Vacina.Any(a => a.TipoVacinaId == tipoVacinaId);
+        }
+
         public List<Tuple<string, int>> ObterQuantidadeVacinaPorTipoVacina()
         {
             var listaQuantidade = _context.Vacina
