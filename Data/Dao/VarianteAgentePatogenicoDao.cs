@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace CVC19.Data.Dao
 {
-    public class VarianteAgentePatogenicoDao
+    public class VarianteAgentePatogenicoDao : BaseDao<VarianteAgentePatogenico>
     {
-        private readonly ApplicationDbContext _context;
-
-        public VarianteAgentePatogenicoDao(ApplicationDbContext context)
+        public VarianteAgentePatogenicoDao(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task<VarianteAgentePatogenico> RecuperarPorIdAsync(int id)
@@ -37,28 +34,9 @@ namespace CVC19.Data.Dao
             }
         }
 
-
         public bool ExistePorId(int id)
         {
             return _context.VarianteAgentePatogenico.Any(v => v.VarianteAgentePatogenicoId == id);
-        }
-
-        public void Incluir(VarianteAgentePatogenico varianteAgentePatogenico)
-        {
-            _context.VarianteAgentePatogenico.Add(varianteAgentePatogenico);
-            _context.SaveChanges();
-        }
-
-        public void Atualizar(VarianteAgentePatogenico varianteAgentePatogenico)
-        {
-            _context.VarianteAgentePatogenico.Update(varianteAgentePatogenico);
-            _context.SaveChanges();
-        }
-
-        public void Excluir(VarianteAgentePatogenico varianteAgentePatogenico)
-        {
-            _context.VarianteAgentePatogenico.Remove(varianteAgentePatogenico);
-            _context.SaveChanges();
         }
 
         public List<Tuple<string, int>> ObterQuantidadeVariantesPorAgentePatogenico()

@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace CVC19.Data.Dao
 {
-    public class TipoVacinaDao
+    public class TipoVacinaDao : BaseDao<TipoVacina>
     {
-        private readonly ApplicationDbContext _context;
-
-        public TipoVacinaDao(ApplicationDbContext context)
+        public TipoVacinaDao(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task<TipoVacina> RecuperarPorIdAsync(int id)
@@ -25,70 +22,9 @@ namespace CVC19.Data.Dao
             return await _context.TipoVacina.OrderBy(t => t.TipoVacinaId).ToListAsync();
         }
 
-
         public bool ExistePorId(int id)
         {
             return _context.TipoVacina.Any(a => a.TipoVacinaId == id);
         }
-
-
-
-
-        public void Incluir(TipoVacina TipoVacina)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.TipoVacina.Add(TipoVacina);
-
-
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Atualizar(TipoVacina tipoVacina)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.TipoVacina.Update(tipoVacina);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Excluir(TipoVacina tipoVacina)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.TipoVacina.Remove(tipoVacina);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
     }
 }

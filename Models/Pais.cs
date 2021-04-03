@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CVC19.Models
 {
     [Table("Pais")]
-    public class Pais
+    public class Pais : Entidade
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace CVC19.Data.Dao
 {
-    public class VacinaDao
+    public class VacinaDao : BaseDao<Vacina>
     {
-        private readonly ApplicationDbContext _context;
-
-        public VacinaDao(ApplicationDbContext context)
+        public VacinaDao(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task<Vacina> RecuperarPorIdAsync(int id)
@@ -31,69 +28,9 @@ namespace CVC19.Data.Dao
                 .OrderBy(v => v.VacinaId).ToListAsync();
         }
 
-
         public bool ExistePorId(int id)
         {
             return _context.Vacina.Any(a => a.VacinaId == id);
-        }
-
-
-
-
-        public void Incluir(Vacina Vacina)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Vacina.Add(Vacina);
-
-
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Atualizar(Vacina Vacina)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Vacina.Update(Vacina);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Excluir(Vacina Vacina)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Vacina.Remove(Vacina);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
         }
 
         public List<Tuple<string, int>> ObterQuantidadeVacinaPorTipoVacina()

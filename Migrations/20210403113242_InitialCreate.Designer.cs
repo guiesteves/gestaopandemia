@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CVC19.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210331164919_InitialCreate")]
+    [Migration("20210403113242_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2005,21 +2005,21 @@ namespace CVC19.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "468274e6-bac9-48a6-aaa2-f3a875b568f3",
+                            ConcurrencyStamp = "095a6715-6b9a-41ab-933c-e4a8c067f220",
                             Name = "ADMIN",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "5279f6e2-eb46-435f-8635-fbd88a791fab",
+                            ConcurrencyStamp = "8c5876e9-a4f8-4007-89d3-b5a9b09e7182",
                             Name = "GESTOR_VACINA",
                             NormalizedName = "GESTOR_VACINA"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "b147c56c-2673-42d7-8068-935c289b73f5",
+                            ConcurrencyStamp = "330a116f-6859-4520-966b-b7ede22dbdb2",
                             Name = "GESTOR_PATOGENO",
                             NormalizedName = "GESTOR_PATOGENO"
                         });
@@ -2301,7 +2301,7 @@ namespace CVC19.Migrations
                         .IsRequired();
 
                     b.HasOne("CVC19.Models.TipoVacina", "TipoVacina")
-                        .WithMany()
+                        .WithMany("ListaVacina")
                         .HasForeignKey("TipoVacinaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2384,6 +2384,11 @@ namespace CVC19.Migrations
             modelBuilder.Entity("CVC19.Models.AgentePatogenico", b =>
                 {
                     b.Navigation("ListaVarianteAgentePatogenico");
+                });
+
+            modelBuilder.Entity("CVC19.Models.TipoVacina", b =>
+                {
+                    b.Navigation("ListaVacina");
                 });
 #pragma warning restore 612, 618
         }

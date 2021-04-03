@@ -302,9 +302,9 @@ namespace CVC19.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3", "b147c56c-2673-42d7-8068-935c289b73f5", "GESTOR_PATOGENO", "GESTOR_PATOGENO" },
-                    { "2", "5279f6e2-eb46-435f-8635-fbd88a791fab", "GESTOR_VACINA", "GESTOR_VACINA" },
-                    { "1", "468274e6-bac9-48a6-aaa2-f3a875b568f3", "ADMIN", "ADMIN" }
+                    { "3", "330a116f-6859-4520-966b-b7ede22dbdb2", "GESTOR_PATOGENO", "GESTOR_PATOGENO" },
+                    { "2", "8c5876e9-a4f8-4007-89d3-b5a9b09e7182", "GESTOR_VACINA", "GESTOR_VACINA" },
+                    { "1", "095a6715-6b9a-41ab-933c-e4a8c067f220", "ADMIN", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(

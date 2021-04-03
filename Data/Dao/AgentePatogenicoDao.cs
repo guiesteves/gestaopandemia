@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace CVC19.Data.Dao
 {
-    public class AgentePatogenicoDao
+    public class AgentePatogenicoDao : BaseDao<AgentePatogenico>
     {
-        private readonly ApplicationDbContext _context;
-
-        public AgentePatogenicoDao(ApplicationDbContext context)
+        public AgentePatogenicoDao(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task<AgentePatogenico> RecuperarPorIdAsync(int id)
@@ -33,27 +30,5 @@ namespace CVC19.Data.Dao
         {
             return _context.AgentePatogenico.Any(a => a.AgentePatogenicoId == id);
         }
-
-
-
-
-        public void Incluir(AgentePatogenico agentePatogenico)
-        {
-            _context.AgentePatogenico.Add(agentePatogenico);
-            _context.SaveChanges();
-        }
-
-        public void Atualizar(AgentePatogenico agentePatogenico)
-        {
-            _context.AgentePatogenico.Update(agentePatogenico);
-            _context.SaveChanges();
-        }
-
-        public void Excluir(AgentePatogenico agentePatogenico)
-        {
-            _context.AgentePatogenico.Remove(agentePatogenico);
-            _context.SaveChanges();
-        }
-
     }
 }

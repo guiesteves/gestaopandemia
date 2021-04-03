@@ -5,7 +5,7 @@ namespace CVC19.Models
 {
 
     [Table("VarianteAgentePatogenico")]
-    public class VarianteAgentePatogenico
+    public class VarianteAgentePatogenico : Entidade
     {
 
         [Key]

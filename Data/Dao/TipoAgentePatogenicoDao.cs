@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace CVC19.Data.Dao
 {
-    public class TipoAgentePatogenicoDao
+    public class TipoAgentePatogenicoDao : BaseDao<TipoAgentePatogenico>
     {
-        private readonly ApplicationDbContext _context;
-
-        public TipoAgentePatogenicoDao(ApplicationDbContext context)
+        public TipoAgentePatogenicoDao(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task<TipoAgentePatogenico> RecuperarPorIdAsync(int id)
@@ -30,65 +27,5 @@ namespace CVC19.Data.Dao
         {
             return _context.TipoAgentePatogenico.Any(a => a.TipoAgentePatogenicoId == id);
         }
-
-
-
-
-        public void Incluir(TipoAgentePatogenico tipoAgentePatogenico)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.TipoAgentePatogenico.Add(tipoAgentePatogenico);
-
-
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Atualizar(TipoAgentePatogenico tipoAgentePatogenico)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.TipoAgentePatogenico.Update(tipoAgentePatogenico);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Excluir(TipoAgentePatogenico tipoAgentePatogenico)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.TipoAgentePatogenico.Remove(tipoAgentePatogenico);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
     }
 }

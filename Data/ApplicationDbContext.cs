@@ -27,6 +27,7 @@ namespace CVC19.Data
         {
             base.OnModelCreating(builder);
 
+
             builder.Entity<IdentityRole>().HasData(
                new IdentityRole { Id = "1", Name = "ADMIN", NormalizedName = "ADMIN" },
                new IdentityRole { Id = "2", Name = "GESTOR_VACINA", NormalizedName = "GESTOR_VACINA" },

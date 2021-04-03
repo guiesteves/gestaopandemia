@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace CVC19.Data.Dao
 {
-    public class LaboratorioDao
+    public class LaboratorioDao : BaseDao<Laboratorio>
     {
-        private readonly ApplicationDbContext _context;
-
-        public LaboratorioDao(ApplicationDbContext context)
+        public LaboratorioDao(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task<Laboratorio> RecuperarPorIdAsync(int id)
@@ -31,62 +28,6 @@ namespace CVC19.Data.Dao
         public bool ExistePorId(int id)
         {
             return _context.Laboratorio.Any(a => a.LaboratorioId == id);
-        }
-
-        public void Incluir(Laboratorio Laboratorio)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Laboratorio.Add(Laboratorio);
-
-
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Atualizar(Laboratorio Laboratorio)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Laboratorio.Update(Laboratorio);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Excluir(Laboratorio Laboratorio)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Laboratorio.Remove(Laboratorio);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
         }
 
         public List<Tuple<string, int>> ObterQuantidadeLaboratoriosPorPais()

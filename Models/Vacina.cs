@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CVC19.Models
 {
     [Table("Vacina")]
-    public class Vacina
+    public class Vacina : Entidade
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Display(Name = "#")]
         public int VacinaId { get; set; }
 
         [Required(ErrorMessage = "Este campo é obrigatório")]
@@ -17,19 +16,16 @@ namespace CVC19.Models
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        [Display(Name = "Laboratório")]
         public int LaboratorioId { get; set; }
 
         public Laboratorio Laboratorio { get; set; }
 
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        [Display(Name = "Tipo de Vacina")]
         public int TipoVacinaId { get; set; }
 
         public TipoVacina TipoVacina { get; set; }
 
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        [Display(Name = "Agente Patogênico")]
         public int AgentePatogenicoId { get; set; }
         public AgentePatogenico AgentePatogenico { get; set; }
 

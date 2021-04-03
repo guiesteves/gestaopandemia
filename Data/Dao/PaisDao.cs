@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace CVC19.Data.Dao
 {
-    public class PaisDao
+    public class PaisDao : BaseDao<Pais>
     {
-        private readonly ApplicationDbContext _context;
-
-        public PaisDao(ApplicationDbContext context)
+        public PaisDao(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task<Pais> RecuperarPorIdAsync(int id)
@@ -35,62 +32,5 @@ namespace CVC19.Data.Dao
         {
             return _context.Pais.Any(a => a.PaisId == id);
         }
-
-        public void Incluir(Pais Pais)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Pais.Add(Pais);
-
-
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Atualizar(Pais Pais)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Pais.Update(Pais);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
-        public void Excluir(Pais Pais)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Pais.Remove(Pais);
-                _context.SaveChanges();
-
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
     }
 }
