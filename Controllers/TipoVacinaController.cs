@@ -66,7 +66,10 @@ namespace CVC19.Controllers
         {
             if (ModelState.IsValid)
             {
+                using var transacao = _tipoVacinaDao.ObterNovaTransacao();
                 _tipoVacinaDao.Incluir(_mapper.Map<TipoVacina>(tipoVacinaViewModel));
+                _tipoVacinaDao.SalvarAlteracoesContexto();
+                transacao.Commit();
                 return RedirectToAction(nameof(Index));
             }
             return View(tipoVacinaViewModel);
@@ -104,7 +107,10 @@ namespace CVC19.Controllers
             {
                 try
                 {
+                    using var transacao = _tipoVacinaDao.ObterNovaTransacao();
                     _tipoVacinaDao.Atualizar(_mapper.Map<TipoVacina>(tipoVacinaViewModel));
+                    _tipoVacinaDao.SalvarAlteracoesContexto();
+                    transacao.Commit();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -145,15 +151,22 @@ namespace CVC19.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            using var transacao = _tipoVacinaDao.ObterNovaTransacao();
             var tipoVacina = await _tipoVacinaDao.RecuperarPorIdAsync(id);
             
             if (_vacinaDao.ExistePorTipoVacinaId(tipoVacina.TipoVacinaId))
             {
                 ModelState.AddModelError(string.Empty, "Não é possivel excluir pois existe vacina vinculado a este tipo de vacina");
+                transacao.Commit();
                 return View(_mapper.Map<TipoVacinaViewModel>(tipoVacina));
             }
 
             _tipoVacinaDao.Excluir(tipoVacina);
+
+            _tipoVacinaDao.SalvarAlteracoesContexto();
+
+            transacao.Commit();
+
             return RedirectToAction(nameof(Index));
         }
 

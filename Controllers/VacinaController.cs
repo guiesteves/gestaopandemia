@@ -72,7 +72,10 @@ namespace CVC19.Controllers
         {
             if (ModelState.IsValid)
             {
+                using var transacao = _vacinaDao.ObterNovaTransacao();
                 _vacinaDao.Incluir(_mapper.Map<Vacina>(vacinaViewModel));
+                _vacinaDao.SalvarAlteracoesContexto();
+                transacao.Commit();
                 return RedirectToAction(nameof(Index));
             }
 
@@ -120,7 +123,10 @@ namespace CVC19.Controllers
             {
                 try
                 {
+                    using var transacao = _vacinaDao.ObterNovaTransacao();
                     _vacinaDao.Atualizar(_mapper.Map<Vacina>(vacinaViewModel));
+                    _vacinaDao.SalvarAlteracoesContexto();
+                    transacao.Commit();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -166,8 +172,12 @@ namespace CVC19.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            using var transacao = _vacinaDao.ObterNovaTransacao();
             var vacina = await _vacinaDao.RecuperarPorIdAsync(id);
             _vacinaDao.Excluir(vacina);
+            _vacinaDao.SalvarAlteracoesContexto();
+            transacao.Commit();
+
             return RedirectToAction(nameof(Index));
         }
 

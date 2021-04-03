@@ -20,17 +20,19 @@ namespace CVC19.Controllers
         private readonly AgentePatogenicoDao _agentePatogenicoDao;
         private readonly VarianteAgentePatogenicoDao _varianteAgentePatogenicoDao;
         private readonly TipoAgentePatogenicoDao _tipoAgentePatogenicoDao;
+        private readonly VacinaDao _vacinaDao;
         private readonly PaisDao _paisDao;
         private readonly IMapper _mapper;
 
         public AgentePatogenicoController(IMapper mapper, AgentePatogenicoDao agentePatogenicoDao,
                                           TipoAgentePatogenicoDao tipoAgentePatogenicoDao, PaisDao paisDao,
-                                          VarianteAgentePatogenicoDao varianteAgentePatogenicoDao)
+                                          VacinaDao vacinaDao, VarianteAgentePatogenicoDao varianteAgentePatogenicoDao)
         {
             _agentePatogenicoDao = agentePatogenicoDao;
             _tipoAgentePatogenicoDao = tipoAgentePatogenicoDao;
             _paisDao = paisDao;
             _varianteAgentePatogenicoDao = varianteAgentePatogenicoDao;
+            _vacinaDao = vacinaDao;
             _mapper = mapper;
         }
 
@@ -76,11 +78,12 @@ namespace CVC19.Controllers
         {
             if (ModelState.IsValid)
             {
-                using var transaction = _agentePatogenicoDao.ObterNovaTransacao();
+                using var transacao = _agentePatogenicoDao.ObterNovaTransacao();
 
                 _agentePatogenicoDao.Incluir(_mapper.Map<AgentePatogenico>(agentePatogenicoViewModel));
-              
-                transaction.Commit();
+                _agentePatogenicoDao.SalvarAlteracoesContexto();
+
+                transacao.Commit();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -130,7 +133,7 @@ namespace CVC19.Controllers
                 try
                 {
 
-                    using var transaction = _varianteAgentePatogenicoDao.ObterNovaTransacao();
+                    using var transacao = _varianteAgentePatogenicoDao.ObterNovaTransacao();
 
                     //Exclui Varinates foram excluidas na tela
                     _varianteAgentePatogenicoDao.ExcluirPorAgentePatogenicoNaoExistentesLista(int.Parse(agentePatogenicoViewModel.AgentePatogenicoId),
@@ -139,8 +142,11 @@ namespace CVC19.Controllers
                                                                                               .Select(i => int.Parse(i.VarianteAgentePatogenicoId)).ToList());
 
                     _agentePatogenicoDao.Atualizar(_mapper.Map<AgentePatogenico>(agentePatogenicoViewModel));
-               
-                    transaction.Commit();
+
+                    _agentePatogenicoDao.SalvarAlteracoesContexto();
+
+
+                    transacao.Commit();
 
 
                 }
@@ -190,11 +196,19 @@ namespace CVC19.Controllers
         {
             var agentePatogenico = await _agentePatogenicoDao.RecuperarPorIdAsync(id);
 
-            using var transaction = _agentePatogenicoDao.ObterNovaTransacao();
+            using var transacao = _agentePatogenicoDao.ObterNovaTransacao();
+            
+            if (_vacinaDao.ExistePorAgentePatogenicoId(agentePatogenico.AgentePatogenicoId))
+            {
+                ModelState.AddModelError(string.Empty, "Não é possivel excluir pois existe vacina vinculado a este agente patogênico");
+                transacao.Commit();
+                return View(_mapper.Map<LaboratorioViewModel>(agentePatogenico));
+            }
 
             _agentePatogenicoDao.Excluir(agentePatogenico);
+            _agentePatogenicoDao.SalvarAlteracoesContexto();
 
-            transaction.Commit();
+            transacao.Commit();
 
             return RedirectToAction(nameof(Index));
         }

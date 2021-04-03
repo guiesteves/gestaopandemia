@@ -65,7 +65,7 @@ namespace CVC19.Controllers
         {
             if (ModelState.IsValid)
             {
-                var transacao = _tipoAgentePatogenicoDao.ObterNovaTransacao();
+                using var transacao = _tipoAgentePatogenicoDao.ObterNovaTransacao();
                 _tipoAgentePatogenicoDao.Incluir(_mapper.Map<TipoAgentePatogenico>(tipoAgentePatogenicoViewModel));
                 _tipoAgentePatogenicoDao.SalvarAlteracoesContexto();
                 transacao.Commit();
@@ -107,7 +107,7 @@ namespace CVC19.Controllers
             {
                 try
                 {
-                    var transacao = _tipoAgentePatogenicoDao.ObterNovaTransacao();
+                    using var transacao = _tipoAgentePatogenicoDao.ObterNovaTransacao();
                     _tipoAgentePatogenicoDao.Atualizar(_mapper.Map<TipoAgentePatogenico>(tipoAgentePatogenicoViewModel));
                     _tipoAgentePatogenicoDao.SalvarAlteracoesContexto();
                     transacao.Commit();
@@ -150,17 +150,18 @@ namespace CVC19.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var transacao = _tipoAgentePatogenicoDao.ObterNovaTransacao();
+            using var transacao = _tipoAgentePatogenicoDao.ObterNovaTransacao();
             var tipoAgentePatogenico = await _tipoAgentePatogenicoDao.RecuperarPorIdAsync(id);
 
             if (_agentePatogenicoDao.ExistePorTipoAgentePatogenicoId(tipoAgentePatogenico.TipoAgentePatogenicoId)) 
             {
                 ModelState.AddModelError(string.Empty, "Não é possivel excluir pois existe agente patogênico vinculado a este tipo de agente patogênico");
+                transacao.Commit();
                 return View(_mapper.Map<TipoAgentePatogenicoViewModel>(tipoAgentePatogenico));
             }
-            
-
+     
             _tipoAgentePatogenicoDao.Excluir(tipoAgentePatogenico);
+
             _tipoAgentePatogenicoDao.SalvarAlteracoesContexto();
             
             transacao.Commit();

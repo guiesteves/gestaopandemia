@@ -16,12 +16,15 @@ namespace CVC19.Controllers
     public class LaboratorioController : Controller
     {
         private readonly LaboratorioDao _laboratorioDao;
+        private readonly VacinaDao _vacinaDao;
         private readonly PaisDao _paisDao;
         private readonly IMapper _mapper;
 
-        public LaboratorioController(IMapper mapper, LaboratorioDao laboratorioDao, PaisDao paisDao)
+        public LaboratorioController(IMapper mapper, LaboratorioDao laboratorioDao,
+                                    VacinaDao vacinaDao, PaisDao paisDao)
         {
             _laboratorioDao = laboratorioDao;
+            _vacinaDao = vacinaDao;
             _paisDao = paisDao;
             _mapper = mapper;
         }
@@ -65,7 +68,11 @@ namespace CVC19.Controllers
         {
             if (ModelState.IsValid)
             {
+                using var transacao = _laboratorioDao.ObterNovaTransacao();
                 _laboratorioDao.Incluir(_mapper.Map<Laboratorio>(laboratorioViewModel));
+                _laboratorioDao.SalvarAlteracoesContexto();
+                transacao.Commit();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["listaPais"] = await _paisDao.RecuperarTodosAsync();
@@ -105,7 +112,11 @@ namespace CVC19.Controllers
             {
                 try
                 {
+                    using var transacao = _laboratorioDao.ObterNovaTransacao();
                     _laboratorioDao.Atualizar(_mapper.Map<Laboratorio>(laboratorioViewModel));
+                    _laboratorioDao.SalvarAlteracoesContexto();
+                    transacao.Commit();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -146,8 +157,23 @@ namespace CVC19.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            using var transacao = _laboratorioDao.ObterNovaTransacao();
+
             var laboratorio = await _laboratorioDao.RecuperarPorIdAsync(id);
+            
+            if (_vacinaDao.ExistePorLaboratorioId(laboratorio.LaboratorioId))
+            {
+                ModelState.AddModelError(string.Empty, "Não é possivel excluir pois existe vacina vinculado a este laboratório");
+                transacao.Commit();
+                return View(_mapper.Map<LaboratorioViewModel>(laboratorio));
+            }
+
             _laboratorioDao.Excluir(laboratorio);
+            _laboratorioDao.SalvarAlteracoesContexto();
+            
+            transacao.Commit();
+
+
             return RedirectToAction(nameof(Index));
         }
 
